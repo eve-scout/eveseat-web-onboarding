@@ -26,3 +26,20 @@ Route::group([
         });
     });
 });
+
+Route::group([
+    'namespace' => 'EveScout\Seat\Web\Onboarding\Http\Controllers\Auth',
+    'middleware' => ['requirements', 'registration.status'],
+    'prefix' => 'auth'
+    ], function () {
+
+    Route::get('confirm/{confirmation_token}', [
+        'as'   => 'auth.register.confirm',
+        'uses' => 'ConfirmController@getConfirm'
+    ]);
+
+    Route::post('register', [
+        'as'   => 'auth.register.post',
+        'uses' => 'RegisterController@postRegister'
+    ]);
+});

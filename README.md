@@ -2,6 +2,10 @@
 
 This [EVE SeAT](https://github.com/eveseat) package adds custom onboarding for new users.
 
+- Displays registration next steps listing on home screen
+- Registration email confirmation and account activation
+- Override API key additions to allow for grandfathered legacy keys that don't meet the minimum mask requirements
+
 ## Install
 
 #### Add Package

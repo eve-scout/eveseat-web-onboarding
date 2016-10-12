@@ -30,6 +30,7 @@ class OnboardingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->addMigrations();
         $this->addViews();
         $this->addRoutes($this->app);
     }
@@ -43,9 +44,12 @@ class OnboardingServiceProvider extends ServiceProvider
     {
         $this->app['view']->composer('web::home', function($view)
         {
+            $isAccountActive = false;
             $hasApiKeys = false;
             $hasMainCharacter = false;
             $hasVisitedForums = false;
+
+            $isAccountActive = auth()->user()->active;
 
             $characters = $this->getUserCharacters(auth()->user()->id);
 
@@ -64,8 +68,18 @@ class OnboardingServiceProvider extends ServiceProvider
             if ($oauth2Sessions->count() > 0)
                 $hasVisitedForums = true;
 
-            $view->nest('full', 'eveseat-onboarding::home', compact('hasApiKeys', 'hasMainCharacter', 'hasVisitedForums'));
+            $view->nest('full', 'eveseat-onboarding::home', compact('isAccountActive', 'hasApiKeys', 'hasMainCharacter', 'hasVisitedForums'));
         });
+    }
+
+    /**
+     * Publish Migrations
+     */
+    public function addMigrations()
+    {
+        $this->publishes([
+            __DIR__ . '/database/migrations/' => database_path('migrations'),
+        ]);
     }
 
     /**

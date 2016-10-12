@@ -11,9 +11,10 @@
       <!-- /.box-header -->
       <div class="box-body no-padding">
         <ul class="nav nav-stacked">
-          <li><a href="/api-key/add">Add EVE API Key <span class="pull-right fa fa-check-circle @if($hasApiKeys) text-green @else text-muted @endif"></span></a></li>
-          <li><a href="/profile/settings">Associate Main Character <span class="pull-right fa fa-check-circle @if(is_null(setting('main_character_name'))) text-muted @else text-green @endif"></span></a></li>
-          <li><a href="https://forums.eve-scout.com">Visit Forums <span class="pull-right fa fa-check-circle @if($hasVisitedForums) text-green @else text-muted @endif"></span></a></li>
+          <li @if($isAccountActive) class="list-group-item-success" @endif><a href="/profile/settings">Activate account by following link sent to your email address <span class="pull-right fa fa-check-circle @if($isAccountActive) text-green @else text-muted @endif"></span></a></li>
+          <li @if($hasApiKeys) class="list-group-item-success" @endif><a href="/api-key/add">Add EVE API Key <span class="pull-right fa fa-check-circle @if($hasApiKeys) text-green @else text-muted @endif"></span></a></li>
+          <li @if(! is_null(setting('main_character_name'))) class="list-group-item-success" @endif><a href="/profile/settings">Associate Main Character <span class="pull-right fa fa-check-circle @if(is_null(setting('main_character_name'))) text-muted @else text-green @endif"></span></a></li>
+          <li @if($hasVisitedForums) class="list-group-item-success" @endif><a href="https://forums.eve-scout.com">Visit Forums <span class="pull-right fa fa-check-circle @if($hasVisitedForums) text-green @else text-muted @endif"></span></a></li>
         </ul>
       </div>
       <!-- /.box-body -->
