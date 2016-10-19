@@ -108,7 +108,7 @@ class KeyController extends Controller
         }
 
         // Check for minimum access_mask
-        if (setting('force_min_mask', true) == 'yes' && $access_mask < setting('min_access_mask', true)) {
+        if ($key_type != 'Corporation' && setting('force_min_mask', true) == 'yes' && $access_mask < setting('min_access_mask', true)) {
 
             // Is there a legacy key active?
             $key = ApiKeyModel::where('key_id', $key_id)->first();
