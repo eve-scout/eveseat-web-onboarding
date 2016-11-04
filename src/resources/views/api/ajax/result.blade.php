@@ -13,7 +13,7 @@
           <dt>{{ trans('web::seat.api_access_mask') }}</dt>
           <dd>{{ $access_mask }}</dd>
         </dl>
-        @if($key_type != 'Corporation' && setting('force_min_mask', true) == 'yes' && $access_mask < setting('min_access_mask', true) && $legacy_key === false)
+        @if($suffecient_access_mask === false && $legacy_key === false)
 
           <div class="text-danger">
             {{ trans('web::seat.insufficient_access_mask') }}
@@ -44,7 +44,7 @@
 
         </ul>
 
-        @if(! $key_type != 'Corporation' && (setting('force_min_mask', true) == 'yes' && $access_mask < setting('min_access_mask', true) && $legacy_key === false))
+        @if(auth()->user()->hasSuperUser() || ! ($suffecient_access_mask === false && $legacy_key === false))
 
           <form role="form" action="{{ route('api.key.add') }}" method="post">
             {{ csrf_field() }}

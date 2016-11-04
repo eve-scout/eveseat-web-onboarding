@@ -31,6 +31,22 @@ class KeyController extends Controller
 
     use JobManager;
 
+    private function suffecientAccessMask($keyType, $accessMask)
+    {
+        // Force min mask
+        if (setting('force_min_mask', true)) {
+
+            // If corporation key
+            if ($keyType === 'Corporation') {
+                return $accessMask >= setting('min_corporation_access_mask', true);
+            } else {
+                return $accessMask >= setting('min_character_access_mask', true);
+            }
+        }
+
+        return true;
+    }
+
     /**
      * @param \Seat\Web\Validation\ApiKey $request
      *
@@ -71,9 +87,11 @@ class KeyController extends Controller
         $access_map = ($key_type == 'Corporation' ?
             config('eveapi.access_bits.corp') : config('eveapi.access_bits.char'));
 
+        $suffecient_access_mask = $this->suffecientAccessMask($key_type, $access_mask);
+
         return view('eveseat-onboarding::api.ajax.result',
             compact('key_type', 'access_mask', 'characters',
-                'access_map', 'key_id', 'v_code', 'legacy_key'));
+                'access_map', 'key_id', 'v_code', 'legacy_key', 'suffecient_access_mask'));
     }
 
     /**
@@ -107,8 +125,10 @@ class KeyController extends Controller
 
         }
 
+
+
         // Check for minimum access_mask
-        if ($key_type != 'Corporation' && setting('force_min_mask', true) == 'yes' && $access_mask < setting('min_access_mask', true)) {
+        if (! auth()->user()->hasSuperUser() && ! $this->suffecientAccessMask($key_type, $access_mask)) {
 
             // Is there a legacy key active?
             $key = ApiKeyModel::where('key_id', $key_id)->first();
