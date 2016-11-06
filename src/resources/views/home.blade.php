@@ -14,7 +14,7 @@
           <li @if($isAccountActive) class="list-group-item-success" @endif><a href="/profile/settings">Activate account by following link sent to your email address <span class="pull-right fa fa-check-circle @if($isAccountActive) text-green @else text-muted @endif"></span></a></li>
           <li @if($hasApiKeys) class="list-group-item-success" @endif><a href="/api-key/add">Add EVE API Key <span class="pull-right fa fa-check-circle @if($hasApiKeys) text-green @else text-muted @endif"></span></a></li>
           <li @if(! is_null(setting('main_character_name'))) class="list-group-item-success" @endif><a href="/profile/settings">Associate Main Character <span class="pull-right fa fa-check-circle @if(is_null(setting('main_character_name'))) text-muted @else text-green @endif"></span></a></li>
-          <li @if($hasVisitedForums) class="list-group-item-success" @endif><a href="https://forums.eve-scout.com">Visit Forums <span class="pull-right fa fa-check-circle @if($hasVisitedForums) text-green @else text-muted @endif"></span></a></li>
+          <li @if($hasVisitedForums) class="list-group-item-success" @endif><a href="https://forums.eve-scout.com">Visit Forums and Login<span class="pull-right fa fa-check-circle @if($hasVisitedForums) text-green @else text-muted @endif"></span></a></li>
         </ul>
       </div>
       <!-- /.box-body -->
@@ -34,7 +34,7 @@
         <span class="info-box-number">
           {{ count(auth()->user()->keys) }}
         </span>
-        <a href="http://192.168.50.10/api-key/add" class="btn btn-sm pull-right bg-green">
+        <a href="/api-key/add" class="btn btn-sm pull-right bg-green">
           Add a EVE API Key
         </a>
       </div><!-- /.info-box-content -->
