@@ -61,6 +61,10 @@ class OnboardingServiceProvider extends ServiceProvider
 
             $characterIDs = $characters->pluck('characterID');
 
+            foreach ($characterIDs as $key => $character) {
+                $characterIDs[$key] = $character . ':' . auth()->user()->id;
+            }
+
             $oauth2Sessions = Session::join('oauth_clients', 'oauth_clients.id', '=', 'oauth_sessions.client_id')
                                 ->where('oauth_clients.name', 'EVE-Scout Forums')
                                 ->whereIn('owner_id', $characterIDs->all());
